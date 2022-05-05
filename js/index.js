@@ -7,6 +7,8 @@ const heroSection = document.querySelector('.hero-section');
 const heroImage = document.querySelector('.hero-image');
 const cardList = document.querySelector('.card-list');
 const slider = document.querySelector('.slider');
+const prevBtn = document.querySelector('.prev-btn');
+const nextBtn = document.querySelector('.next-btn');
 
 let heroID = 1;
 
@@ -21,16 +23,13 @@ async function displayData() {
 
   data.map((post, index) => {
     const media = post._embedded['wp:featuredmedia'][0];
-    const { alt_text, id, media_details } = media;
+    const { alt_text, media_details } = media;
     const { sizes } = media_details;
-
-    if (index < 4) {
-    }
 
     slider.innerHTML += `
     <li class="card">
       <a href="#">
-        <img src="${sizes.full.source_url}" alt="${alt_text}" />
+        <img data-id="${post.id}" src="${sizes.full.source_url}" alt="${alt_text}" />
         <div class="text-content">
         <h3>${post.title.rendered}</h3>
         ${post.excerpt.rendered}
@@ -39,12 +38,40 @@ async function displayData() {
     </li>
     `;
   });
+
+  let currentImageHovered = 0;
+
+  const cardImages = slider.querySelectorAll('img');
+  cardImages.forEach((cardImage, index) => {
+    cardImage.addEventListener('mouseover', (e) => {
+      if (Number(cardImage.dataset.id) !== currentImageHovered) {
+        currentImageHovered = Number(cardImage.dataset.id);
+
+        const filteredHeroImage = data.filter((item) => {
+          return item.id === Number(cardImage.dataset.id);
+        });
+
+        heroImage.classList.add('fade-out');
+
+        setTimeout(() => {
+          const hoverImage =
+            filteredHeroImage[0]._embedded['wp:featuredmedia'][0].source_url;
+          heroImage.src = hoverImage;
+          heroImage.alt =
+            filteredHeroImage[0]._embedded['wp:featuredmedia'][0].alt_text;
+
+          heroImage.classList.remove('fade-out');
+        }, 300);
+      }
+
+      // setTimeout(() => {
+
+      // }, )
+    });
+  });
 }
 
 displayData();
-
-const prevBtn = document.querySelector('.prev-btn');
-const nextBtn = document.querySelector('.next-btn');
 
 let sliderValue = 0;
 const maxValue = 2;
