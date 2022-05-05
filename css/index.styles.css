@@ -1,5 +1,9 @@
 .card-list {
+  position: relative;
   border: 1px solid red;
+}
+
+.slider {
   display: flex;
   width: 95%;
   max-width: 1200px;
@@ -7,33 +11,34 @@
   position: relative;
   height: 200px;
   z-index: 0;
+  transition: 0.3s;
 }
 
-.slide {
-  position: absolute;
+.card {
+  /* position: absolute;
   display: grid;
   place-items: center;
   padding: 2rem;
-  transition: 0.3s linear;
+  transition: 0.3s linear; */
 }
 
 .active-slide {
-  transition: 0.3s linear;
   opacity: 1;
   transform: translate(0%, 0%);
 }
 .next-slide {
-  transition: 0.3s linear;
   opacity: 0;
   transform: translate(100%, 0%);
 }
 .last-slide {
-  transition: 0.3s linear;
   opacity: 0;
   transform: translate(-100%, 0%);
 }
 
-.slide img {
+.card img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
 }
 
 /* buttons */
