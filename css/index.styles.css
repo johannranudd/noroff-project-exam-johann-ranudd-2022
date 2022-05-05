@@ -1,0 +1,55 @@
+.card-list {
+  border: 1px solid red;
+  display: flex;
+  width: 95%;
+  max-width: 1200px;
+  margin: auto;
+  position: relative;
+  height: 200px;
+  z-index: 0;
+}
+
+.slide {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  transition: 0.3s linear;
+}
+
+.active-slide {
+  transition: 0.3s linear;
+  opacity: 1;
+  transform: translate(0%, 0%);
+}
+.next-slide {
+  transition: 0.3s linear;
+  opacity: 0;
+  transform: translate(100%, 0%);
+}
+.last-slide {
+  transition: 0.3s linear;
+  opacity: 0;
+  transform: translate(-100%, 0%);
+}
+
+.slide img {
+}
+
+/* buttons */
+
+.next-and-prev-btns {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  z-index: 99;
+}
+
+.next-and-prev-btns button {
+  font-size: 2rem;
+
+  cursor: pointer;
+}
