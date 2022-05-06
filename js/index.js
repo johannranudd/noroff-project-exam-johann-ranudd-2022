@@ -2,10 +2,10 @@ import { getData } from './fetch.js';
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts?_embed=true&per_page=8`;
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts`;
 const url = `http://www.johannblog.one/wp-json/wp/v2/posts?_embed=true&per_page=12`;
-const section = document.querySelector('.section-center');
+const section = document.querySelector('.slider-section');
 const heroSection = document.querySelector('.hero-section');
 const heroImage = document.querySelector('.hero-image');
-const cardList = document.querySelector('.card-list');
+const cardList = document.querySelector('.slider-container');
 const slider = document.querySelector('.slider');
 const mobileSlider = document.querySelector('.mobile-next-and-prev-btns');
 const prevBtn = document.querySelector('.prev-btn');
@@ -73,6 +73,8 @@ function mapData(data) {
 
   const cardImages = slider.querySelectorAll('img');
   cardImages.forEach((cardImage, index) => {
+    let timeout1;
+    let timeout2;
     cardImage.addEventListener('mouseover', (e) => {
       if (Number(cardImage.dataset.id) !== currentImageHovered) {
         currentImageHovered = Number(cardImage.dataset.id);
@@ -80,13 +82,12 @@ function mapData(data) {
         const filteredHeroImage = data.filter((item) => {
           return item.id === Number(cardImage.dataset.id);
         });
-        console.log(filteredHeroImage[0].excerpt.rendered);
 
-        setTimeout(() => {
+        timeout1 = setTimeout(() => {
           heroImage.classList.add('fade-out');
         }, 700);
 
-        setTimeout(() => {
+        timeout2 = setTimeout(() => {
           const hoverImage =
             filteredHeroImage[0]._embedded['wp:featuredmedia'][0].source_url;
           heroImage.src = hoverImage;
@@ -99,6 +100,11 @@ function mapData(data) {
         }, 1000);
       }
     });
+
+    cardImage.addEventListener('mouseout', () => {
+      clearTimeout(timeout1);
+      clearTimeout(timeout2);
+    });
   });
 }
 
@@ -107,7 +113,8 @@ function mapData(data) {
 let sliderValue = 0;
 const maxValue = 2;
 
-cardList.addEventListener('click', (e) => {
+section.addEventListener('click', (e) => {
+  console.log('prev');
   if (e.target.className.includes('fa-chevron-left')) {
     sliderValue -= 1;
     if (sliderValue < 0) {

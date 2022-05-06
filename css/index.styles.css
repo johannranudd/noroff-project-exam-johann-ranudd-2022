@@ -30,12 +30,13 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--clr-orange);
-
-  display: grid;
-  place-items: center;
   max-height: 200px;
   max-width: 90%;
   text-align: center;
+}
+
+.hero-text-container h1 {
+  padding-bottom: 0.5rem;
 }
 
 .hero-paragraph {
@@ -69,7 +70,7 @@
 }
 
 /* CARDS */
-.card-list {
+.slider-container {
   display: none;
 }
 
@@ -84,6 +85,10 @@
 }
 
 /* buttons */
+.prev-btn,
+.next-btn {
+  display: none;
+}
 
 /* !MEDIA */
 
@@ -91,20 +96,34 @@
   .hero-section {
     grid-template-columns: 70% 30%;
   }
+
   .hero-text-container {
     position: relative;
+    text-align: left;
+  }
+  .hero-text-container h1 {
+    text-align: left;
   }
   .mobile-next-and-prev-btns {
     display: none;
   }
 
-  .card-list {
+  .slider-section {
     position: relative;
-    top: -2rem;
+    max-width: 1000px;
+    width: 95%;
+    margin: auto;
+  }
+
+  .slider-container {
+    position: relative;
+    top: -4rem;
     display: block;
     overflow: hidden;
-    height: 240px;
-    border: 1px solid red;
+    height: 250px;
+    width: 95%;
+    max-width: 900px;
+    margin: auto;
   }
   .slider {
     width: 100%;
@@ -113,6 +132,13 @@
     min-width: 25%;
     padding: 0 1rem;
   }
+
+  /* .card:first-child {
+    padding-left: 0;
+  }
+  .card:last-child {
+    padding-right: 0;
+  } */
 
   .card a {
     display: grid;
@@ -125,19 +151,29 @@
     object-fit: cover;
   }
 
-  .next-and-prev-btns {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    z-index: 0;
+  .card h3 {
+    text-align: center;
   }
 
-  .next-and-prev-btns button {
+  .prev-btn,
+  .next-btn {
+    position: absolute;
+    top: 50%;
+
     font-size: 2rem;
     color: var(--clr-orange);
     cursor: pointer;
+    display: block;
+    /* z-index: 99; */
+  }
+
+  .prev-btn {
+    /* left: -20px; */
+    transform: translateY(-6rem);
+  }
+
+  .next-btn {
+    right: 0px;
+    transform: translateY(-6rem);
   }
 }
