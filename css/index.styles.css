@@ -1,15 +1,76 @@
+.hero-section {
+  position: relative;
+  display: grid;
+  max-width: 1200px;
+  height: 40vh;
+  margin: auto;
+  background: var(--clr-black);
+  overflow: hidden;
+}
+
+.hero-image-container {
+  height: 400px;
+}
+
 .hero-image {
-  height: 500px;
-  transition: 0.5s;
+  height: 100%;
+  width: 100%;
+
+  object-fit: cover;
+  transition: 0.3s;
 }
 
 .fade-out {
   opacity: 0;
 }
 
+.hero-text-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--clr-orange);
+
+  display: grid;
+  place-items: center;
+  max-height: 200px;
+  max-width: 90%;
+  text-align: center;
+}
+
+.hero-paragraph {
+  margin-bottom: 1rem;
+}
+
+.hero-text-container button {
+  color: var(--clr-white);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.hero-text-container button:hover {
+  color: var(--clr-orange);
+}
+
+.mobile-next-and-prev-btns {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mobile-next-and-prev-btns button {
+  font-size: 2rem;
+  color: var(--clr-orange);
+  cursor: pointer;
+}
+
+/* CARDS */
 .card-list {
-  position: relative;
-  border: 1px solid red;
+  display: none;
 }
 
 .slider {
@@ -19,51 +80,64 @@
   margin: auto;
   position: relative;
   height: 200px;
-  z-index: 0;
   transition: 0.3s;
-}
-
-.card {
-  /* position: absolute;
-  display: grid;
-  place-items: center;
-  padding: 2rem;
-  transition: 0.3s linear; */
-}
-
-.active-slide {
-  opacity: 1;
-  transform: translate(0%, 0%);
-}
-.next-slide {
-  opacity: 0;
-  transform: translate(100%, 0%);
-}
-.last-slide {
-  opacity: 0;
-  transform: translate(-100%, 0%);
-}
-
-.card img {
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
 }
 
 /* buttons */
 
-.next-and-prev-btns {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  z-index: 99;
-}
+/* !MEDIA */
 
-.next-and-prev-btns button {
-  font-size: 2rem;
+@media (min-width: 800px) {
+  .hero-section {
+    grid-template-columns: 70% 30%;
+  }
+  .hero-text-container {
+    position: relative;
+  }
+  .mobile-next-and-prev-btns {
+    display: none;
+  }
 
-  cursor: pointer;
+  .card-list {
+    position: relative;
+    top: -2rem;
+    display: block;
+    overflow: hidden;
+    height: 240px;
+    border: 1px solid red;
+  }
+  .slider {
+    width: 100%;
+  }
+  .card {
+    min-width: 25%;
+    padding: 0 1rem;
+  }
+
+  .card a {
+    display: grid;
+    place-items: center;
+  }
+
+  .card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .next-and-prev-btns {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .next-and-prev-btns button {
+    font-size: 2rem;
+    color: var(--clr-orange);
+    cursor: pointer;
+  }
 }

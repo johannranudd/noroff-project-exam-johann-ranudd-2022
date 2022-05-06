@@ -1,26 +1,57 @@
 import { getData } from './fetch.js';
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts?_embed=true&per_page=8`;
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts`;
-const url = `http://www.johannblog.one/wp-json/wp/v2/posts?_embed=true`;
+const url = `http://www.johannblog.one/wp-json/wp/v2/posts?_embed=true&per_page=12`;
 const section = document.querySelector('.section-center');
 const heroSection = document.querySelector('.hero-section');
 const heroImage = document.querySelector('.hero-image');
 const cardList = document.querySelector('.card-list');
 const slider = document.querySelector('.slider');
+const mobileSlider = document.querySelector('.mobile-next-and-prev-btns');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
+const heroHeader = document.querySelector('.hero-text-container h1');
+const heroParagraph = document.querySelector('.hero-paragraph');
 
-let heroID = 1;
+let heroID = 0;
 
 async function displayData() {
   const data = await getData(url);
+  displayHeroImage(data);
+  mapData(data);
+  mobileSlider.addEventListener('click', (e) => mobileSliderFunction(e, data));
+}
+displayData();
 
+function displayHeroImage(data) {
   const initialImage = data[heroID]._embedded['wp:featuredmedia'][0];
-  // console.log(data[heroID]);
-
   heroImage.src = initialImage.media_details.sizes.full.source_url;
   heroImage.alt = initialImage.alt_text;
+  heroHeader.innerHTML = data[heroID].title.rendered;
+  heroParagraph.innerHTML = data[heroID].excerpt.rendered.substring(0, 50);
+}
 
+// !MOBILE SLIDE FUNCTION
+
+function mobileSliderFunction(e, data) {
+  const maxLength = data.length;
+  if (e.target.className.includes('fa-chevron-left')) {
+    heroID--;
+    if (heroID < 0) {
+      heroID = maxLength - 1;
+    }
+  }
+  if (e.target.className.includes('fa-chevron-right')) {
+    heroID++;
+    if (heroID >= maxLength) {
+      heroID = 0;
+    }
+  }
+  displayHeroImage(data);
+}
+
+// !MAPDATA
+function mapData(data) {
   data.map((post, index) => {
     const media = post._embedded['wp:featuredmedia'][0];
     const { alt_text, media_details } = media;
@@ -32,7 +63,6 @@ async function displayData() {
         <img data-id="${post.id}" src="${sizes.full.source_url}" alt="${alt_text}" />
         <div class="text-content">
         <h3>${post.title.rendered}</h3>
-        ${post.excerpt.rendered}
         </div>
       </a>
     </li>
@@ -50,8 +80,11 @@ async function displayData() {
         const filteredHeroImage = data.filter((item) => {
           return item.id === Number(cardImage.dataset.id);
         });
+        console.log(filteredHeroImage[0].excerpt.rendered);
 
-        heroImage.classList.add('fade-out');
+        setTimeout(() => {
+          heroImage.classList.add('fade-out');
+        }, 700);
 
         setTimeout(() => {
           const hoverImage =
@@ -59,36 +92,32 @@ async function displayData() {
           heroImage.src = hoverImage;
           heroImage.alt =
             filteredHeroImage[0]._embedded['wp:featuredmedia'][0].alt_text;
-
+          heroHeader.innerHTML = filteredHeroImage[0].title.rendered;
+          heroParagraph.innerHTML =
+            filteredHeroImage[0].excerpt.rendered.substring(0, 50);
           heroImage.classList.remove('fade-out');
-        }, 300);
+        }, 1000);
       }
-
-      // setTimeout(() => {
-
-      // }, )
     });
   });
 }
 
-displayData();
+// !SLIDE FUNCTION
 
 let sliderValue = 0;
 const maxValue = 2;
 
 cardList.addEventListener('click', (e) => {
   if (e.target.className.includes('fa-chevron-left')) {
-    if (sliderValue <= 0) {
+    sliderValue -= 1;
+    if (sliderValue < 0) {
       sliderValue = maxValue;
-    } else {
-      sliderValue -= 1;
     }
   }
   if (e.target.className.includes('fa-chevron-right')) {
-    if (sliderValue >= maxValue) {
+    sliderValue += 1;
+    if (sliderValue > maxValue) {
       sliderValue = 0;
-    } else {
-      sliderValue += 1;
     }
   }
   slideFunction();
