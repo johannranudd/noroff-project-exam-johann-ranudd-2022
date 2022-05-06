@@ -1,4 +1,4 @@
-import { getData } from './fetch.js';
+// import { getData } from './fetch.js';
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts?_embed=true&per_page=8`;
 // const url = `https://www.johann-blog.one/wp-json/wp/v2/posts`;
 const url = `http://www.johannblog.one/wp-json/wp/v2/posts?_embed=true&per_page=12`;
@@ -14,6 +14,12 @@ const heroHeader = document.querySelector('.hero-text-container h1');
 const heroParagraph = document.querySelector('.hero-paragraph');
 
 let heroID = 0;
+
+async function getData(url) {
+  const res = await fetch(url);
+  const data = await res.json();
+  return data;
+}
 
 async function displayData() {
   const data = await getData(url);
