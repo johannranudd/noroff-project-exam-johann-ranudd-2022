@@ -27,7 +27,7 @@ async function displayData() {
   mapData(data);
   mobileSlider.addEventListener('click', (e) => mobileSliderFunction(e, data));
 }
-displayData();
+window.addEventListener('load', displayData);
 
 function displayHeroImage(data) {
   const initialImage = data[heroID]._embedded['wp:featuredmedia'][0];
